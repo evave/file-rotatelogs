@@ -29,7 +29,9 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 	for _, re := range patternConversionRegexps {
 		globPattern = re.ReplaceAllString(globPattern, "*")
 	}
-
+	// p增加hostname
+	hostname,_ := os.Hostname()
+	p += fmt.Sprintf(".%s", hostname)
 	pattern, err := strftime.New(p)
 	if err != nil {
 		return nil, errors.Wrap(err, `invalid strftime pattern`)
